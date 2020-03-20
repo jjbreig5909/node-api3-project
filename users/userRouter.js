@@ -90,16 +90,12 @@ router.delete('/:id', validateUserId, (req, res) => {
   });
 });
 
-router.put('/:id',validateUserId, (req, res) => {
+router.put('/:id',[validateUserId, validateUser], (req, res) => {
   // do your magic!
   console.log(req.body);
-  Users.update(req.params.id, req.body)
+  Users.update(req.user.id, req.body)
   .then(user=>{
-    if(user){
       res.status(200).json(user);
-    } else{
-      res.status(404).json({message:"error finding the user"})
-    }
   })
   .catch(error=>{
     console.log(error);
